@@ -1,0 +1,90 @@
+#
+#Deven Bibikar, Code Labs
+#imports?
+import random
+#
+#EvenOddCounter 
+counter = 20
+even, odd = 0,0
+x = []
+print("\nEvenOddCounter\n" + ("-"*42))
+
+while counter != 0:
+  x.append(random.randint(0, 9))
+  counter -= 1
+print("Your list is: {}".format(x))
+
+for test in x:
+  if test % 2 == 0:
+    even += 1
+  else:
+    odd += 1 
+print("There are {} even(s) and {} odd(s).".format(even, odd))
+
+#FindKeyNumber
+print("\nFindKeyNumber\n" + ("-"*42))
+#reusing the same list generator
+x = []
+found = 0 
+
+while counter != 10:
+  x.append(random.randint(0, 9))
+  counter += 1 
+print("Your list is: {}".format(x))
+number = int(input("Enter the key number (between 0-9): "))
+
+for test in x: 
+  if test == number:
+    print("\nFirst instance of", number, "can be found at location ", x.index(test))
+    found = 1 
+    break
+
+if found == 0:
+  print("Number is not in list")
+else:
+  x.reverse()
+  for test in x:
+    if test == number: 
+      print("Last instance of", number, "can be found at location ", (9 - x.index(test)))
+      break
+
+#FindMinMax
+print("\nFindMinMax\n" + ("-"*42))
+x = []
+counter = 0
+while counter != 6:
+  x.append(random.randint(-100, 100))
+  counter += 1 
+print("Your list is: {}".format(x))
+
+print("The largest number,", format(max(x)) + ",", "is at location" , x.index(max(x)))
+print("The smallest number,", format(min(x)) + ",", "is at location" , x.index(min(x)))
+
+#Sums&Averages
+x, even, odd = [],[],[]
+print("\nAverage&Sums\n" + ("-"*42))
+counter = 0
+
+while counter != 25:
+  x.append(random.randint(0, 100))
+  counter += 1 
+print("Your list is: {}".format(x))
+
+for test in x:
+  if test % 2 == 0:
+    even.append(test)
+  else:
+    odd.append(test)
+    
+print("\nThe Even Numbers are:", even, "\nThe sum of these numbers is", sum(even), "\nThe average of these numbers is", (sum(even) / len(even)))
+print("\nThe Odd Numbers are:", odd, "\nThe sum of these numbers is", sum(odd), "\nThe average of these numbers is", (sum(odd) / len(odd)))
+
+#easter egg
+print("\n\n^-^ Program End.")
+
+
+
+
+
+
+  
