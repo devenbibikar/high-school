@@ -1,0 +1,66 @@
+#This version shows the code prior to using dictioniaries. It was scrapped in place of the other file. 
+#Credits: Deven Bibikar
+#Written in Python
+
+def display_information():
+  print(("-"*5) + "\nWelcome to Bailar, a survival game")
+  print("In this game, you can choose between 3 countries")
+  
+  x = input("Choose an option: \n1. [Play Game] \n2. [View Country Stats] \n3. [General Info]\n> ")
+  if x == '2':
+
+    templist = Country.United_Corporation() 
+    print("\nUnited Corporation\n" + (len("United__Corporation" )* '-'), "\nHealth: {}".format(templist[0]),"\nSpecial: {}".format(templist[1]),"\nMoves: {}".format(templist[2]),"\nCounters: {}".format(templist[3]))
+
+    templist = Country.Eastern_Alliance() 
+    print("\nEastern Alliance\n" + (len("Eastern__Alliance" )* '-'), "\nHealth: {}".format(templist[0]),"\nSpecial: {}".format(templist[1]),"\nMoves: {}".format(templist[2]),"\nCounters: {}".format(templist[3]))
+
+    templist = Country.Central_Armed_Militia() 
+    print("\nCentral Armed Militia\n" + (len("Central_Armed_Militia" )* '-'), "\nHealth: {}".format(templist[0]),"\nSpecial: {}".format(templist[1]),"\nMoves: {}".format(templist[2]),"\nCounters: {}".format(templist[3]))   
+
+  if x == '3':
+    print("-~-~-~-\nAll Credits to Deven Bibikar")          
+
+
+#Definintion classes?
+class Country():    
+  special = 0
+  counter = 0
+  moves = 0
+  initial_damage = 0
+  health = 0
+
+  def United_Corporation():
+    health = 5000
+    initial_damage = 0 
+    special = ['Freedom']
+    moves = ['Missle Strike', 'Draft Soldiers']
+    counter = ['Anti-Aircraft', 'Reduced Damage']
+    return health, special, moves, counter
+
+  
+  def Eastern_Alliance():
+    #China, India, Russia, and those countries in between
+    health = 7500
+    damage = -50 
+    moves = ['Slavery', 'Missle Strike', 'Airstrike']
+    counter = ['Reduced Damage']
+    special = ["Worker's Union"]
+    return health, special, moves, counter
+  
+  def Central_Armed_Militia():
+    #Switzerland, Austria, Germany
+    health = 1750
+    initial_damage = 100
+    special = ['Guerilla Warfare', 'United Front', 'Diplomatic Relation']
+    moves = ['Infiltrate', 'Recruit Civilians']
+    counter = ['Scatter', 'Anti-Aircraft']
+    return health, special, moves, counter
+
+class Events():
+  print()
+
+#Intro Code Begins
+display_information()
+
+  
