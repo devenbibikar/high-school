@@ -1,0 +1,31 @@
+#One of my friends mentioned that she sometimes talks with people who reply with stock responses. 
+#As a joke, I made her this program, which simulates a conversation with similar stock responses. 
+
+import random as rd
+
+print("Hello, I'm Friend Z, Let's Talk!")
+print("Feel free to type anything and I'll respond!")
+print("If you want to leave, just say bye")
+
+introPhrases = ["Hey!", "hi", "yo", "hello", "whazzup", "g'day", "what's up?", "heyo", "hey, what's up?", "hey, wassup?"]
+
+replyPhrases = ["lol ok", "cool", "dope", "that's fun", "neat", "nice", "ok", "okay", "bruh", "haha", "ic", "icic", "ohhh", "yeah", "ya", "xD", "xd", "lol", ":)", ":|"]
+
+displayName = input("\nWhat would you like to be called?\nEnter Name: ")
+
+print("...\n\n" + displayName, "is now online.\n...\n")
+
+print("New Message!\n...\n")
+
+print("Jean D'Pierre:", rd.choice(introPhrases), "\n---")
+print("Jean D'Pierre: ok talk to me\n---")
+input(displayName + ": ")
+
+continueLoop = True
+
+while continueLoop: 
+  print("---\nJean D'Pierre:", rd.choice(replyPhrases), "\n---")
+  if "bye" in input(displayName + ": "):
+    continueLoop = False
+
+print("---\nJean D'Pierre: ok bye", "\n---\n\nEnd of Conversation. Congratulations.")
