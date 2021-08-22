@@ -1,4 +1,7 @@
 #Created in 9th Grade
+#Written in Python 
+
+
 import sys
 import random
 Enemyhealth,Enemydamage,campaign_length = 0,0,10
