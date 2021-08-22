@@ -1,0 +1,414 @@
+#Created in 9th Grade
+import sys
+import random
+Enemyhealth,Enemydamage,campaign_length = 0,0,10
+
+def display_information():
+  print(("-"*5) + "\nWelcome to Bailar, a survival game")
+  print("In this game, you can choose between 3 countries")
+  y = 0
+  #Essentially the main menu- first time though. It calls from the function under country to obtain stats
+  while y == 0:
+    x = input("\nChoose an option: \n1. [Play Game] \n2. [View Country Stats] \n3. [General Info]\n> ")
+
+    if x == '1':
+      #begins the game, you choose country
+      print("\nThe game has set afoot!\n" + ('- '*5))
+      y = 1
+      z = 0
+      while z == 0:       
+        x = input("\nChoose an Country: \n1. [United Corporation] \n2. [Eastern Alliance] \n3. [Central Armed Militia]\n4. [View Stats]\n> ")
+        
+        if x == '1':
+          z = 1 
+          return 'United Corporation'
+        if x == '2':
+          z = 1
+          return 'Eastern Alliance'
+        if x == '3':
+          z = 1
+          return 'Central Armed Militia'
+        if x == '4':
+          Stats()
+          
+    elif x == '2':
+      Stats()
+
+    elif x == '3':
+      print("\n-~-~-~-\nAll Credits to Deven Bibikar\n-~-~-~-")    
+      x = input("\nGo back? > ")  
+
+def Stats():
+  for key in Country.COUNTRIES:
+    print(Country(key).get_stats())
+
+
+#Definintion classes?
+class Country():    
+  COUNTRIES = {
+    #America+England
+    'United Corporation': {
+      'health': 5000, 'initial_damage': -50, "special": ['Freedom'], 
+      "moves": ['Missile Strike', 'Draft Soldiers'],
+      'counter' : ['Anti-Aircraft', 'Reduced Damage']
+    },
+    #China, India, Russia, and those countries in between
+    'Eastern Alliance': {
+      'health': 7500, 'initial_damage': -100, "special": ["Worker's Union"], 
+      "moves": ['Slavery', 'Missile Strike', 'Airstrike'],
+      'counter' :['Reduced Damage']
+    },
+    #Switzerland, Austria, Germany
+    'Central Armed Militia': {
+      'health': 1750, 'initial_damage': 0, "special":[ 'United Front', 'Diplomatic Relation'], 
+      "moves": ['Infiltrate', 'Recruit Civilians'],
+      'counter' :['Scatter', 'Anti-Aircraft']
+    },
+  }
+
+  def __init__(self, name):
+    self.name = name
+    if name in Country.COUNTRIES:
+      for key in Country.COUNTRIES[name]:
+        setattr(self, key, Country.COUNTRIES[name][key])
+
+
+  def get_stats(self):
+    return "\n{}\n".format(self.name) + (len("{}".format(self.name)) * '-')+\
+      "\nHealth: {}".format(self.health)+\
+      "\nSpecial: {}".format(self.special)+\
+      "\nMoves: {}".format(self.moves)+\
+      "\nCounters: {}".format(self.counter)
+
+
+
+#Intro Code Begins
+CountryID = display_information()
+
+user = Country(CountryID)
+
+year = 0
+
+def PrelimForChooseMove(something):
+  x = 1
+  for item in something:
+    print(str(x) + ". " + str(item))
+    x += 1
+  choice = input(str(len(something) + 1) + '. Go back?\n> ')
+  if int(choice) > len(something):
+    return 'continue'
+  else:
+    return something[(int(choice) - 1)]
+
+
+def ChooseMove():
+  choice = input("\nYou have three major options:\n1. Moves: {}\n2. Special: {}\n3. Counter: {}\n> ".format(user.moves, user.special, user.counter))
+  if choice == '1':
+    EndChoice = PrelimForChooseMove(user.moves)
+    if  EndChoice == 'continue':
+      return 'repeat'
+    else:
+      return EndChoice
+
+  elif choice == '2':
+    EndChoice = PrelimForChooseMove(user.special)
+    if  EndChoice == 'continue':
+      return 'repeat'
+    else:
+      return EndChoice
+
+  elif choice == '3':
+    EndChoice = PrelimForChooseMove(user.counter)
+    if  EndChoice == 'continue':
+      return 'repeat'
+    else:
+      return EndChoice
+
+#All the moves
+class Move():
+  
+  def Slavery():
+    print('Loss of health by 700! Damage Increased by 125.')
+    user.health -= 700
+    user.initial_damage += 125
+
+
+  def Missile_Strike():
+    print("Well aimed strike! Enemy takes {} damage.".format(200 + user.initial_damage))
+    global Enemyhealth
+    Enemyhealth -= (200 + user.initial_damage)
+
+
+  def Freedom():
+    print("User's work for freedom! Health increased by 150")
+    user.health += 150
+
+
+
+  def Draft_Soldiers():
+    print("User gains 75 health and 10 damage is added to attacks")
+    user.health += 75
+    user.initial_damage += 10
+  
+
+  def Diplomatic_Relation():
+    CoinToss = random.randint(1,2)
+    if CoinToss == 1:
+      #End The Year
+      print("Diplomatic relation successful!")
+      return 'end year'
+    if CoinToss == 2:
+      DamageTaken = random.randint(50,300)
+      print("The Diplomatic Attempt Failed! User takes {} damage!".format(DamageTaken))
+      user.health -= DamageTaken
+
+
+  def Anti_Aircraft():
+    CoinToss = random.randint(1,3)
+    global Enemyhealth
+    global Enemydamage
+    if CoinToss == 1 or 2: 
+      print("Well done! Enemy damage neutralized.")
+      Enemyhealth -= 25
+      Enemydamage -= 200
+    if CoinToss == 3:
+      print("The guns are jammed!\nYou take 100 damage.")
+      user.health -= 100
+
+  
+  def Reduced_Damage():
+    CoinToss = random.randint(1,2)
+    global Enemydamage
+    if CoinToss == 1:
+      print("Enemy damage decreased by 100!")
+      Enemydamage -= 100
+    if CoinToss == 2:
+      print("Enemy damage decreased by 10")
+      Enemydamage -= 10
+
+  def Workers_Union():
+    print("User health increased by 200")
+    user.health += 200
+
+  def Airstrike():
+    global Enemyhealth
+    CoinToss = random.randint(1,3)
+    if CoinToss == 1:
+      print("Your attack hit! Enemy takes {} damage!".format(300 + user.initial_damage))
+      Enemyhealth -= (300 + user.initial_damage)
+    if CoinToss == 2:
+      print("You faced opposing resistance and were forced to retreat [User loses 100 health, Enemy loses 100 health")
+      Enemyhealth -= 100
+      user.health -= 100
+    if CoinToss == 3:
+      print("Your squadran was mildly successful.. [{} damage done!]".format(150 + user.initial_damage))
+      Enemyhealth -= (150 + user.initial_damage)
+
+  def United_Front():
+    CoinToss = random.randint(1,4)
+    if CoinToss == 3:
+      print("Health and Damage increased by 100.")
+      user.health += 100
+      user.initial_damage += 100
+    else:
+      print("Your attempt to rally your folk failed")
+      user.health += 10
+      user.initial_damage += 10
+
+
+  def Infiltrate():
+    global Enemyhealth
+    CoinToss = random.randint(1,6)
+    if CoinToss == 6:
+      print("We found the weakness! {} Damage done, and our damage increased by 300!".format(round(Enemyhealth * .25)))
+      user.initial_damage += 300
+      Enemyhealth -= (round(Enemyhealth * .25))
+    else:
+      print("Infiltration failed. [No effect] ")
+
+  def Scatter():
+    print('Your forces attempted to dodge an attack! Enemy Damage reduced by 100, user damage reduced by 50')
+    user.initial_damage -= 50
+    global Enemydamage
+    Enemydamage -= 100
+  def Recruit_Civilians():
+    CoinToss = random.randint(1,3)
+    if CoinToss == 1:
+      print("User increased in health by 150")
+      user.health += 150
+    if CoinToss == 2:
+      print("Your rally attempt failed. [No effect]")
+    if CoinToss == 3:
+      global Enemyhealth 
+      print("Your rally swung people out of control! Enemy takes 300 damage, you take 100 damage. ")
+      Enemyhealth -= 300
+      user.health -= 100 
+
+
+class Events():
+  
+  
+  def EnemyMove():
+    global Enemydamage
+    global Enemyhealth
+    if Enemydamage >= 0:
+      print("Enemy does {} damage".format(Enemydamage))
+      user.health -= Enemydamage
+      Enemydamage += 10
+    elif Enemydamage == 0:
+      print("Enemy regains their damage.")
+      Enemydamage = 100 
+    elif Enemydamage <= 0: 
+      print("Enemy forces are unable to fight!")
+    if Enemyhealth <= 500:
+      CoinToss = random.randint(0,1)
+      if CoinToss == 0:
+        print("The Enemy attacks by desperation. Enemy takes 100 damage, User takes 350 damage")
+        Enemyhealth -= 100
+        user.health -= 350
+      if CoinToss == 1:
+        print("The enemy attempts to rally its troops for additional attack but fails.\nSome of the civilians from the opposing force join your army. \nEnemy loses 50 health and User gains 50 health")
+        Enemyhealth -= 50
+        user.health += 50
+
+
+  def ChooseMove(prelim):
+    if user.health <= 0:
+      print("Your nation was conquered!\nGame Over")
+      sys.exit()  
+    if prelim == 1:
+      global Enemyhealth
+      global Enemydamage
+      Enemyhealth = random.randint(300,(user.health))
+      Enemydamage = random.randint(50,300)  
+    if Enemyhealth <= 0:
+      print("The Enemy has been eradicated, good job chief.")
+      return 'next year'
+    if Enemydamage <= 0:
+      Enemydamage = random.randint(50,300)
+    EndResult = ChooseMove()
+    if EndResult != "repeat":
+      print('You chose', EndResult)
+      if EndResult == 'Slavery':
+        Move.Slavery()
+      elif EndResult == 'Missile Strike':
+        Move.Missile_Strike()
+      elif EndResult == 'Airstrike':
+        Move.Airstrike()
+      elif EndResult == "Worker's Union":
+        Move.Workers_Union()
+      elif EndResult == 'Reduced Damage':
+        Move.Reduced_Damage()
+      elif EndResult == 'Infiltrate':
+        Move.Infiltrate()
+      elif EndResult == 'Recruit Civilians':
+        Move.Recruit_Civilians()
+      elif EndResult == 'United Front':
+        Move.United_Front()
+      elif EndResult == 'Diplomatic Relation':
+        if Move.Diplomatic_Relation() == 'end year':
+          return 'next year'
+          year += 1
+            #End the year
+      elif EndResult == 'Scatter':
+        Move.Scatter()
+      elif EndResult == 'Anti-Aircraft':
+        Move.Anti_Aircraft()
+      elif EndResult == 'Draft Soldiers':
+        Move.Draft_Soldiers()
+      elif EndResult == 'Freedom':
+        Move.Freedom()
+      Events.EnemyMove()
+      print("..\nUser health:", user.health, 'User damage buff: {}'.format(user.initial_damage), '\nEnemy health:',Enemyhealth, 'Enemy damage:', Enemydamage)
+      
+#Probability of choosing events
+#New army approaching
+def ArmyArrives():
+  Enemyhealth, Enemydamage = 50,50
+  print("A foreign army is approaching our forces!\n")
+  print("User health:", user.health, 'User damage buff: {}'.format(user.initial_damage), '\nEnemy health:',Enemyhealth, 'Enemy damage:', Enemydamage)
+  Events.ChooseMove(1)
+  while Events.ChooseMove(0) != 'next year':
+    print("..")
+
+
+def Internal_Damage():
+  
+  CoinToss = random.randint(1,50)
+#soulnight
+  x = random.randint(300,750)
+  if CoinToss in [1,2,3,4,5]:
+    print("Someone has infiltrated your army.")  
+    print("Damage is critical! Health Reduced by {}".format(x), "\nUser health:", (user.health - x))
+    input()
+    user.health -= x
+  elif CoinToss in [6,7,8,9,10]:
+    print("Someone has infiltrated your army.")
+    x = random.randint(50,250)
+    input("Someone has hijacked the weaponry! Damage Buff reduced by {}".format(x))
+    user.initial_damage -= x
+  elif CoinToss == 48:
+    input("A rise of communism has begun, riots break away in every part of the country.\nUser health reduced to 50, damage buff reduced to 0")
+    user.health = 50
+    user.initial_damage = 0 
+  else:
+    input("A tranquil year passes by, void of interest\n [Enter to continue]")
+
+def ArmyJoins():
+  print("An army joins you! [Health increaed by 500, Damage Buff increased by 50]")
+  user.health += 500
+  user.initial_damage += 50
+
+def Bet():
+  betbro = input("You take a bet with your officers.\nA coin toss ensues.\n1. Heads\n2. Tails\n> ")
+  if betbro == random.randint(1,2):
+    print("Congrats, you got it right! The year ends peacefully.")
+  else: 
+    print("You misjudge the coin, and guess wrong. A general loses faith in you and goes beserk, causing havoc. [Health decreased by 50] ")
+    user.health -= 50
+
+def Riddle():
+  print("Your logistics officer has found a relic of the past!")
+  #Lines 1-6 of Inauguration by Lorenzo Thomas, Source: Chances are Few (Blue Wind Press, 1979)
+  print("""
+      The land was there before us
+      Was the land. Then things
+      Began happening fast. Because
+      The bombs us have always work
+      Sometimes it makes me think
+      God must be one of us.
+      """)
+  #while believeme == ' ':
+  believeme = input('What would you like to do?\n1. Hide it\n2. Burn it\n3. Present it to your people\n> ')
+  if isinstance(int(believeme), int) == True:
+    if int(believeme) == 1:
+      print("Your logistic officer finds it hidden in your cabinet.\nYou are outraged, and your people begin to lose trust in you.\nGame Over.")
+    elif int(believeme) == 2: 
+      print("You accidentally burn yourself too. \nGame Over")
+    elif int(believeme) == 3:
+      print("Your people are impressed and the relic is displayed in the courtyard.\nCongratulations, you have won the game.")
+
+#choosing the probability of events and seeing which ones would work best
+def Probability():
+
+  global year
+  while year != 6:
+    print(('- '*5) + "\nYear {}\n".format(year) + ('- '*5))
+    CoinToss = random.randint(1,5)
+    if CoinToss == 1:
+      ArmyArrives()
+    elif CoinToss == 2:
+      Internal_Damage()
+    elif CoinToss == 3:
+      ArmyJoins()
+    elif CoinToss == 4:
+      Bet()
+    elif CoinToss == 5:
+      ArmyArrives()
+    year += 1
+  Riddle()
+
+Probability()
+
+
+
