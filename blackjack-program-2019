@@ -1,0 +1,526 @@
+#
+#Code is not completed, as of 2/12/18, -> does not loop properly at the very end and has no multiplayer function
+#
+#Code is working as of 2/14/19
+#imports + prelims? 
+import random
+#setting the values, 'global' lists to work across multiple functions
+card_deck = []
+suit_deck = []
+string_deck = []
+
+#for the game itself
+computer_hand = []
+player_hand = []
+playertwo_hand = []
+int_playertwo_hand = []
+int_computer_hand = []
+int_player_hand = []
+dealerroll = 0
+playerroll = 1
+computer, player, fivecards  = 0,0,0
+
+#defines a deck of cards, appends values 1-13 four times and then creates a suit deck to go with it by appending values under while loops
+
+def deckOfCards(): 
+  #begins by clearing previous values, if needed 
+  card_deck.clear()
+  suit_deck.clear()
+  string_deck.clear()
+  x,y,z = 0, 0, 1
+  while y != 13:
+    while x != 4:
+      card_deck.append(z)
+      x += 1
+    z += 1
+    y += 1
+    x = 0
+  y = 0
+  #Making the meta values for what suit each number is
+  while y != 13:
+    suit_deck.append('Hearts')
+    suit_deck.append('Spades')
+    suit_deck.append('Clubs')
+    suit_deck.append('Diamonds')
+    y +=1
+
+#This 'class' has no actual meaning, I was just messing around with Classes, do ignore the 'test'
+class Test():
+  #code to append mistaken strings, replaces 11,12,13,1 with the user friendly names and creates a string deck using the card deck
+  def deckToString(deck):
+    if deck == 'preliminary':
+      for integer in card_deck:
+        string_deck.append(str(integer))
+      x = 0
+      while x != 4: 
+        string_deck.insert(string_deck.index('11'), 'Jack')
+        string_deck.pop(string_deck.index('11'))
+
+        string_deck.insert(string_deck.index('12'), 'Queen')
+        string_deck.pop(string_deck.index('12'))
+
+        string_deck.insert(string_deck.index('13'), 'King')
+        string_deck.pop(string_deck.index('13'))
+
+        string_deck.insert(string_deck.index('1'), 'Ace')
+        string_deck.pop(string_deck.index('1'))
+        x += 1
+    #Each time the player hits, it prompts these texts
+    if deck == 'player':
+      #draws by appending from deck
+
+      global playerroll
+      playerroll += 2
+      player_hand.append((string_deck[playerroll] +  " of " + suit_deck[playerroll]))
+      int_player_hand.append(card_deck[playerroll])
+
+      if not sum(int_player_hand) == 21 and sum(int_player_hand) >= 21:
+        if 11 in int_player_hand:
+          int_player_hand.insert(int_player_hand.index(11), 1)
+          int_player_hand.pop(int_player_hand.index(11))      
+
+      print("\nPlayer rolled a {} of".format(string_deck[playerroll]), suit_deck[playerroll] + "\nHere is your hand: {}".format(player_hand),"\nYour total is", sum(int_player_hand))
+
+    #Each time 'player two' hits, it prompts these texts, similar but different
+    if deck == 'playertwo':
+
+      playertwo_hand.append((string_deck[playerroll - 1] +  " of " + suit_deck[playerroll - 1 ]))
+      int_playertwo_hand.append(card_deck[playerroll -1])
+
+      if not sum(int_playertwo_hand) == 21 and sum(int_playertwo_hand) >= 21:
+        if 11 in int_playertwo_hand:
+          int_playertwo_hand.insert(int_playertwo_hand.index(11), 1)
+          int_playertwo_hand.pop(int_playertwo_hand.index(11))      
+
+      print("\nPlayer Two rolled a {} of".format(string_deck[playerroll - 1 ]), suit_deck[playerroll - 1 ] + "\nHere is your hand: {}".format(playertwo_hand),"\nYour total is", sum(int_playertwo_hand))
+      print(int_playertwo_hand)
+    #a much simpler code for the computer to roll and draw 
+    if deck == 'computer':
+      global dealerroll
+      dealerroll += 2
+      computer_hand.append((string_deck[dealerroll] +  " of " + suit_deck[dealerroll]))
+      int_computer_hand.append(card_deck[dealerroll])
+      print("\nDealer chose to hit!\n**Dealer hand: {}".format(computer_hand))
+      print("Dealer's total is {}".format(sum(int_computer_hand)))
+      print(int_computer_hand)
+
+
+
+  def shuffle(shuffle):
+    #takes a positon and then throws it randomly into another place, but its coordinated because the same position is thrown to same place for both decks
+    x = 0
+    if shuffle == "prelim":
+      while x != 100:
+        pos = random.randint(1,13)
+        card_deck.pop(card_deck.index(pos))
+        where =  random.randint(0,51)
+        card_deck.insert(where, pos)
+        #small code to shuffle the suit_deck in coordination with the card_deck shuffling algorithm
+        suit_deck.insert(where, suit_deck.pop(card_deck.index(pos)))
+        x += 1
+    if shuffle == "second time through":
+      while x != 100:
+        pos = random.randint(2,11)
+        card_deck.pop(card_deck.index(pos))
+        where =  random.randint(0,51)
+        card_deck.insert(where, pos)
+        #small code to shuffle the suit_deck in coordination with the card_deck shuffling algorithm
+        suit_deck.insert(where, suit_deck.pop(card_deck.index(pos)))
+        x += 1
+
+#A code to ensure that when both players stand used only for computer -human match, 
+  def Stand(enter):
+    if enter == "first":
+      global stand
+      stand = "useless"
+    if stand == "Player" and enter == "Computer":
+      if sum(int_player_hand) >= sum(int_computer_hand):
+        print("Player Wins.")
+        return 1
+
+      if sum(int_player_hand) <= sum(int_computer_hand):
+        print("Dealer Wins. ")
+        return 1
+
+      if sum(int_player_hand) == sum(int_computer_hand):
+        print("Dealer wins by tie")
+        return 1
+
+    elif enter == "Player":
+      stand = "Player"
+      return 0
+
+    elif enter == "Computer":
+      stand = "Computer"
+      return 0
+
+
+      
+
+
+
+  def AskThePlayer(user):
+    #using standvariable to check when multiplayer stand
+    if user == "prelim":
+      global standvariable
+      standvariable = 0
+    if user == "PlayerOne":
+      decision = input("Would you like to hit or stand? [H/S] ")
+
+      if decision.lower() == 'h': 
+        #testing command: print("never")
+        #end_idea = 'Hit'
+        Test.deckToString('player')
+
+      if decision.lower() == 's':
+        #testing command: print("land")
+        #end_idea = 'Stand'
+        print("You chose to stand!\n")
+        standvariable += 1
+        if neverland == 'm':
+          if standvariable == 2:
+            if sum(int_player_hand) == sum(int_playertwo_hand):
+              print("Both players tie!")
+              return 1
+          
+            if sum(int_player_hand) >= sum(int_playertwo_hand):
+              print("Player One Wins.")
+              return 1
+
+            if sum(int_player_hand) <= sum(int_playertwo_hand):
+              print("Player Two wins!")
+              return 1  
+        else:
+          Test.Stand("Player")
+
+      #setting victory/losing conditions
+
+      if sum(int_player_hand) == 21:
+        global player
+        player = 1
+        print("Player has reached 21")
+        return player
+
+      elif sum(int_player_hand) >= 21:
+        global computer
+        computer = 1
+        print("\nPlayer is over 21\nDealer Wins.\n")
+        return computer 
+
+      elif sum(int_player_hand) <= 21 and len(int_player_hand) == 5:
+        global fivecards
+        fivecards, player = 1,1
+        print("\nPlayer has 5 cards and is under 21!")
+        return player
+      else:
+        return computer
+
+    if user == "PlayerTwo":    
+      #using standvariable to check when multiplayer stand, asks for hit or stand
+      decision = input("\n[Player Two] Would you like to hit or stand? [H/S] ")
+
+      if decision.lower() == 'h': 
+        #testing command: print("never")
+        #end_idea = 'Hit'
+        Test.deckToString('playertwo')
+
+      if decision.lower() == 's':
+        #testing command: print("land")
+        #end_idea = 'Stand'
+        print("You chose to stand!\n")
+        standvariable += 1
+        if neverland == 'm':
+          if standvariable == 2:
+            if sum(int_player_hand) == sum(int_playertwo_hand):
+              print("Both players tie!")
+              return 1
+          
+            if sum(int_player_hand) >= sum(int_playertwo_hand):
+              print("Player One Wins.")
+              return 1
+
+            if sum(int_player_hand) <= sum(int_playertwo_hand):
+              print("Player Two wins!")
+              return 1  
+        
+      #setting victory/losing conditions
+
+      if sum(int_playertwo_hand) == 21:
+        print("Player Two has reached 21")
+        return 1
+
+      elif sum(int_player_hand) >= 21:
+        computer = 1
+        print("\nPlayer Two is over 21\nPlayer One Wins.\n")
+        
+        return 1
+
+
+      elif sum(int_player_hand) <= 21 and len(int_player_hand) == 5:
+        print("\nPlayer Two has 5 cards and is under 21!")
+        return 1
+
+  #Computer Calculation
+  def ComputerTurn():
+    #checks for the computer value vs the human hand and whether it should hit or not
+    #testing command: print(sum(int_computer_hand))
+    move = 0
+    if sum(int_computer_hand) <= 16:
+      #Computer chooses to hit
+      Test.deckToString('computer')
+      #move = 1
+      
+    #print('hey computer: ', int_computer_hand)
+      move = 1
+    if sum(int_computer_hand) == 21:
+      computer = 1
+      print("Dealer has 21!")
+      move = 1
+      return 1
+      
+    
+    if sum(int_computer_hand) >= 16 and sum(int_computer_hand) != 21:
+      for value in int_computer_hand:
+        if value == 11:
+          int_computer_hand.pop(int_computer_hand.index(value))
+          int_computer_hand.append(1)
+
+    if sum(int_computer_hand) <= 21 and move == 0 and sum(int_computer_hand) >= 16:
+      print("\nDealer chose to Stand\n**Dealer hand: {}".format(computer_hand))
+      print("Dealer's total is {}".format(sum(int_computer_hand)))
+      return Test.Stand("Computer")
+      move = 1
+          
+
+    if sum(int_computer_hand) >= 21 and not sum(int_computer_hand) == 21:
+      player = 1
+      move = 1
+      print("\nDealer over 21")
+      return player
+
+    if len(int_computer_hand) == 5 and sum(int_computer_hand) <= 22:
+      print("\nDealer wins with 5 cards under 21")
+      computer = 1
+      fivecards = 1
+      return computer
+
+  def EndSequence(ending):
+    if ending == 'ending':
+      #checks if you want to play again, for the computer-human
+      respuesta = input("Would you like to play again? [y/n]")
+
+      if respuesta.lower() == 'n':
+        exit()
+        return("break")
+      if respuesta.lower() == 'y':
+        if neverland == 'c':
+          #Clearing all the needed values
+          computer_hand.clear()
+          player_hand.clear()
+          int_computer_hand.clear()
+          int_player_hand.clear()
+          dealerroll, playerroll = 1, 0
+          #shuffling the deck + adding values back into the hands
+          Test.shuffle("second time through")
+          computer_hand.append(string_deck[dealerroll] + " of " + suit_deck[dealerroll])
+          player_hand.append((string_deck[playerroll] +  " of " + suit_deck[playerroll]))
+          int_computer_hand.append(card_deck[dealerroll])
+          int_player_hand.append(card_deck[playerroll])
+          #printing nice headers + info
+          print("\nNew Game!\n" + ('*' *20))
+          print("\nThe dealer rolled a {} of".format(string_deck[dealerroll]), suit_deck[dealerroll])
+          print("You rolled a {} of".format(string_deck[playerroll]), suit_deck[playerroll] + "\nHere is your hand: {}".format(player_hand))
+          return("continue")
+
+    if ending == 'beginning':
+      #clears values and then shuffles + recreates the environment for the game
+      playertwo_hand.clear()
+      player_hand.clear()
+      int_playertwo_hand.clear()
+      int_player_hand.clear()          
+      dealerroll, playerroll = 0, 1
+
+      #shuffling the deck + adding values back into the hands
+      #Test.shuffle("second time through")
+      #print(card_deck, string_deck, playerroll, dealerroll)
+      playertwo_hand.append(string_deck[dealerroll] + " of " + suit_deck[dealerroll])
+      player_hand.append((string_deck[playerroll] +  " of " + suit_deck[playerroll]))
+      int_playertwo_hand.append(card_deck[dealerroll])
+      int_player_hand.append(card_deck[playerroll])
+      #printing nice headers + info
+      print("\nMultiplayer!\n" + ('*' *20))
+      #print(card_deck, playerroll, dealerroll)
+      print("Player One rolled a {} of".format(string_deck[playerroll]), suit_deck[playerroll] + "\nPlayer Two rolled a {} of".format(string_deck[dealerroll]), suit_deck[dealerroll] + "\nHere is Player One's hand: {}".format(player_hand) + "\nHere is Player Two's Hand: {}".format(playertwo_hand))
+      return("continue")
+
+    if ending == 'multiplayer':
+      respuesta = input("Would you like to play again? [y/n]")
+      if respuesta.lower() == 'n':
+        exit()
+        return("break")
+      if respuesta.lower() == 'y':
+        deckOfCards()
+        Test.shuffle('prelim')
+        print(card_deck)
+        Test.deckToString('preliminary')
+
+        playertwo_hand.clear()
+        player_hand.clear()
+        int_playertwo_hand.clear()
+        int_player_hand.clear()          
+        dealerroll, playerroll = 0, 1
+        x = 0
+        while x != 4:
+          #testing command: print(len(card_deck))
+          #replacing values such as 11,12,13 with 10, as they should be. 
+          card_deck.insert(card_deck.index(11), 10)
+          card_deck.pop(card_deck.index(11))
+          
+          card_deck.insert(card_deck.index(13), 10)
+          card_deck.pop(card_deck.index(13))
+          
+          card_deck.insert(card_deck.index(12), 10)
+          card_deck.pop(card_deck.index(12))
+          x += 1
+        
+        #print(card_deck, string_deck, playerroll, dealerroll)
+        playertwo_hand.append(string_deck[dealerroll] + " of " + suit_deck[dealerroll])
+        player_hand.append((string_deck[playerroll] +  " of " + suit_deck[playerroll]))
+        int_playertwo_hand.append(card_deck[dealerroll])
+        int_player_hand.append(card_deck[playerroll])
+        #printing nice headers + info
+        print("\nNew Game!\n" + ('*' *20))
+        #print(card_deck, playerroll, dealerroll)
+        print("Player One rolled a {} of".format(string_deck[playerroll]), suit_deck[playerroll] + "\nPlayer Two rolled a {} of".format(string_deck[dealerroll]), suit_deck[dealerroll] + "\nHere is Player One's hand: {}".format(player_hand) + "\nHere is Player Two's Hand: {}".format(playertwo_hand))
+        return("continue")
+
+
+
+
+
+  def dealGame():
+    #deals the game, makes the stand variable = 0 
+    Test.AskThePlayer('prelim')
+    print("Welcome to Py-BlackJack,\nA python text based BlackJack game.\n")
+    x = 0
+    while x != 4:
+
+      #testing command: print(len(card_deck))
+      #replacing values such as 11,12,13 with 10, as they should be. 
+      card_deck.insert(card_deck.index(11), 10)
+      card_deck.pop(card_deck.index(11))
+      
+      card_deck.insert(card_deck.index(13), 10)
+      card_deck.pop(card_deck.index(13))
+      
+      card_deck.insert(card_deck.index(12), 10)
+      card_deck.pop(card_deck.index(12))
+      x += 1
+    nexttime, localvariable = 0, 0
+
+    x = 0
+    while x != 4:
+      #Making sure the 'ace' is regarded with higher value instead of 1
+      card_deck.insert(card_deck.index(1), 11)
+      card_deck.pop(card_deck.index(1))
+      x += 1
+
+    Test.Stand("first")
+    global neverland
+    neverland = input("Would you like to play against a computer or multiplayer? [c/m] ")
+    if neverland.lower() == 'm':
+      neverland = 'm'
+      #Multiplayer code begins here:
+      Test.EndSequence('beginning')
+      while True:
+        while nexttime != 1:
+          if Test.AskThePlayer("PlayerOne") == 1:
+            #if returns one then the game ends and the end sequence is prompted
+            computer, player, fivecards  = 0,0,0
+            if Test.EndSequence('multiplayer') == "break":
+              break
+            else:
+              continue
+              
+          if Test.AskThePlayer("PlayerTwo") == 1:
+            computer, player, fivecards  = 0,0,0
+            if Test.EndSequence('multiplayer') == "break":
+              break
+            else:
+              continue
+              
+
+        print("\n^-^ Program End.")
+
+
+
+
+
+    else:
+      endprogram = 1
+      respuesta = 0
+      while endprogram != 0:
+        #begins
+        #replacing all the values 10+ with 10 
+        #debug()
+
+        #testing command: print("\n", card_deck, "\n")
+        print("\n\nPlaying against computer\n" + ('*'*20))
+        computer_hand.append(string_deck[dealerroll] + " of " + suit_deck[dealerroll])
+        player_hand.append((string_deck[playerroll] +  " of " + suit_deck[playerroll]))
+        int_computer_hand.append(card_deck[dealerroll])
+        int_player_hand.append(card_deck[playerroll])
+
+        print("\nThe dealer rolled a {} of".format(string_deck[dealerroll]), suit_deck[dealerroll])
+        print("You rolled a {} of".format(string_deck[playerroll]), suit_deck[playerroll] + "\nHere is your hand: {}".format(player_hand))
+        #print(victory)
+        nexttime = 0
+        while True:
+          while nexttime != 1:
+            #if it returns one then the victor is calculated 
+            if Test.AskThePlayer("PlayerOne") == 1:
+              computer, player, fivecards  = 0,0,0
+              if Test.EndSequence('ending') == "break":
+                break
+
+              else:
+                continue
+              
+            if Test.ComputerTurn() == 1:
+              computer, player, fivecards  = 0,0,0
+              if Test.EndSequence('ending') == "break":
+                break
+
+              else:
+                continue
+              
+
+        print("\n^-^ Program End.")
+
+        endprogram -= 1
+
+  def debug():
+    print(string_deck)
+    print("\n", card_deck)
+    print("\n", suit_deck)
+    
+
+#Couple prelim instructions: 
+#does use built-in shuffle() function ^^ 
+#make it so you can see the dealer's first card, and you can also make it a multiplayer game
+#count up the probability of being dealt a better card, work out the ace 
+
+#printing the deck of cards, and shuffling it? 
+#You have to decide it as 1 or 11
+
+#tie goes to dealer
+
+deckOfCards()
+
+
+Test.shuffle('prelim')
+Test.deckToString('preliminary')
+
+Test.dealGame()
+
+
