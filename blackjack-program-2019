@@ -1,7 +1,10 @@
 #
-#Code is not completed, as of 2/12/18, -> does not loop properly at the very end and has no multiplayer function
-#
+#Blackjack program by Deven Bibikar
+#Written in Python
 #Code is working as of 2/14/19
+#
+#
+#
 #imports + prelims? 
 import random
 #setting the values, 'global' lists to work across multiple functions
