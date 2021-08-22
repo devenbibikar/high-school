@@ -1,6 +1,6 @@
 #One of my friends mentioned that she sometimes talks with people who reply with stock responses. 
 #As a joke, I made her this program, which simulates a conversation with similar stock responses. 
-#This is written in python, credits to Deven Bibikar
+#This is written in Python, credits to Deven Bibikar
 
 import random as rd
 
