@@ -1,0 +1,102 @@
+#HTML tags? 
+#
+#Deven Bibikar, Code Labs
+# Make Tags
+def makeTags(tag, word):
+  print("<" + tag + ">" + word + "</" + tag + ">")
+
+print('\nMake Tags\n' + ('-'*42))
+makeTags("i", "Yay")
+makeTags("i", "Hello")
+makeTags("cite", "Yay")
+makeTags("address", "here")
+makeTags("body", "Heart")
+makeTags("i", "i")
+makeTags("i", "")
+print()
+
+#Make out word, out length will always be 4
+def makeOutWord(out,word):
+  print(out[0:2] + word + out[2:4])
+
+print('\nMakeOutWord\n' + ('-'*42))
+makeOutWord("<<>>", "Yay")
+makeOutWord("<<>>", "WooHoo")
+makeOutWord("[[]]", "word")
+makeOutWord("HHoo", "Hello")
+makeOutWord("abyz", "YAY")
+print()
+
+#Extra end String
+def extraEnd(string):
+  x = len(string)
+  print(string[x-2:x]*3)
+
+print('\nExtra End\n' + ('-'*42))
+extraEnd("Hello")
+extraEnd("ab")
+extraEnd("Hi")
+extraEnd("Candy")
+extraEnd("Code")
+print()
+
+#First two
+def firstTwo(string):
+  print(string[0:2])
+
+print('\nFirst Two\n' + ('-'*42))
+firstTwo("Hello")
+firstTwo("abcdefg")
+firstTwo("ab")
+firstTwo("Kitten")
+firstTwo("hi")
+firstTwo("hiya")
+
+#First Half
+def firstHalf(string):
+  x = len(string)
+  y = (int(x/2))
+  print(string[0:y])
+
+print('\nFirst Half\n' + ('-'*42))
+firstHalf("WooHoo")
+firstHalf("HelloThere")
+firstHalf("abcdef")
+firstHalf("ab")
+firstHalf("")
+firstHalf("0123456789")
+firstHalf("kitten")
+
+#lastHalf
+def lastHalf(string):
+  x = len(string)
+  y = (int(x/2))
+  print(string[y:]) 
+
+print('\nLast Half\n' + ('-'*42))
+lastHalf("WooHoo")
+lastHalf ("HelloThere")
+lastHalf ("abcdef")
+lastHalf ("ab")
+lastHalf ("")
+lastHalf ("0123456789")
+lastHalf ("kitten")
+lastHalf("westwood") 
+
+## Given a string, return a version without the first and last char, so "Hello" yields
+## "ell". The string length will be at least 2.
+def justTheMiddle(string):
+  x = len(string)
+  print(string[1:x-1]) 
+
+print('\nJust the middle\n' + ('-'*42))
+justTheMiddle("Hello")
+justTheMiddle("java")
+justTheMiddle("coding")
+justTheMiddle("code")
+justTheMiddle("ab")
+justTheMiddle("Chocolate!")
+justTheMiddle("kitten")
+justTheMiddle("woohoo")  
+
+print('\n\n\n\n')
