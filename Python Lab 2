@@ -1,0 +1,61 @@
+# This is Deven Bibikar starting Python Lab 2
+# Deven Bibikar, Code Labs
+#
+def heading(name):
+  print()
+  print("*"*42)
+  print("Python Lab 002")
+  print('Code by', name)
+  print("*"*42)
+
+heading('Deven')
+
+#Functions listed here
+def squarePerimeter(s):
+    return 4*s
+
+def hexagonPerimeter(s):
+  return 6*s
+
+def rectanglePerimeter(l,w):
+  return (l+w)*2
+
+def circleCircumference(r,p):
+  return 2*r*p
+
+def squareArea(s):
+  return s**2
+
+def rectangleArea(l,w):
+  return l*w
+  
+def circleArea(r,p):
+  return p*(r**2)
+
+def cubeVolume(s):
+  return s**3
+
+def sphereVolume(r,p):
+  return (4 * p * (r**3))/3
+
+
+
+
+#Preliminary Definitions
+side = 4.0
+length = 5.0
+width = 6.0
+radius = 10
+pi = 3.14159
+
+
+#Printing the material! 
+print("SQUARE PERIMETER: ",squarePerimeter(side))
+print("HEXAGON PERIMETER: ",hexagonPerimeter(side))
+print("RECTANGLE PERIMETER: ",rectanglePerimeter(length,width))
+print("CIRCLE CIRCUMFERENCE: ",circleCircumference(radius,pi))
+print("SQUARE AREA: ",squareArea(side))
+print("RECTANGLE AREA: ",rectangleArea(length,width))
+print("CIRCLE AREA: ",circleArea(radius,pi))
+print("CUBE VOLUME: ",cubeVolume(side))
+print("SPHERE VOLUME: ",sphereVolume(radius,pi))
