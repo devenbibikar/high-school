@@ -1,0 +1,136 @@
+#
+#Deven Bibikar, Code Labs
+#Preliminary functions
+import random
+
+def heading(name):
+  print()
+  print("*"*42)
+  print("Python Lab 003, Loops and Decisions")
+  print('Code by', name)
+  print("*"*42)
+
+#Prints name seven times
+def SevenTimes():
+  print('Seven Times')
+  print('-' * 42)
+  x = 7
+  while x != 0:
+    print('Deven',end='-')
+    x = x - 1
+  print('\n\n')
+
+#Prints a sequence of even numbers
+def EvenNumbers():
+  print('Even Numbers')
+  print('-' * 42)
+  x = 0
+  while x != 50:
+    x = x + 2
+    print(x, end=' ')
+  print('\n')
+
+#Prints the fibonacci sequence
+def Fibonacci():
+  print('Fibonnacci')
+  print('-' * 42)
+  y = 0
+  print(y, end=' ')
+  x = 1
+  z = x + y
+  print(z,end=' ')
+  y = x
+  x = z
+  print(x, end=' ')
+  counter = 15
+  while counter != 0:
+    z = x + y
+    print(z, end=' ')
+    y = x
+    x = z
+    counter = counter - 1
+  print('\n')
+
+#Prints the odd numbers in the fibonacci sequence
+def FibonacciOdds():
+  print('Fibonacci, Odds Only')
+  print('-' * 42)
+  y = 0
+  x = 1
+  z = x + y
+  y = x
+  x = z
+  print(x, end=' ')
+  counter = 15
+  while counter != 0:
+    z = x + y
+    if z % 2 != 0:
+      print(z, end=' ')
+    y = x
+    x = z
+    counter = counter - 1
+  print('\n')
+
+#Prints your name, and greets you, similar to the beginning of an rpg
+def YourName():
+  print("What's Your Name?")
+  print('-' * 42)  
+  kimi = input("What's Your Name? ")
+  print("Hello", kimi + ", it's nice to meet you." )
+  print('\n')
+
+#Takes your favorite number and cubes it
+def FavoriteNumber():
+  print('Favorite Number')
+  print('-' * 42)    
+  number = int(input("What's your favorite number? "))
+  number = number ** 3
+  print("That's cool. My favorite number is", number,'.')
+  print('\n')
+
+#Checks whether your favorite number is even or odd
+def FavoriteNumberChecker():
+  print('Favorite Number, Even or Odd')
+  print('-' * 42)  
+  number = int(input("What's your favorite number? "))
+  
+  #checking whether its odd or even using mod
+  if number % 2 != 0:
+    print(number, 'is an odd number.')
+  else:
+    print(number, 'is an even number.')
+  print('\n')
+
+#A mini guess game where you try to guess a random number between 1-10
+def MagicNumber():
+  print('Magic Number')
+  print('-' * 42)
+  magic = random.randint(1,10)
+  #print("The Magic Number is ", magic)
+  number = int(input('Try to guess the magic number (between 1-10): '))
+
+  while number != magic:
+    number = int(input("That's not the magic number. Guess again: "))  
+
+  print("Yay!", magic,  "is the magic number.")
+
+#Header
+heading('Deven')
+print('\n\n')
+
+#Calling the functions:
+SevenTimes()
+
+EvenNumbers()
+
+Fibonacci()
+
+FibonacciOdds()
+
+YourName()
+
+FavoriteNumber()
+
+FavoriteNumberChecker()
+
+MagicNumber()
