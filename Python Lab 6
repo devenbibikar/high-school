@@ -1,0 +1,65 @@
+#
+#Deven Bibikar, Code Labs
+#
+#Fullname
+
+def FullName(first, middle, last):
+  print("FullName\n" + ("-"*42) + "\nHello", first, middle, last, "\nYour initials are", first[0].upper() + middle[0].upper() + last[0].upper(), "\nUpper case is", first.upper(), middle.upper(), last.upper(),"\nLower case is", first.lower(), middle.lower(), last.lower(), "\nYour full name has", (len(first) + len(middle) + len(last)),"characters")
+
+one = input("Enter your first name: ")
+two = input("Enter your middle name: ")
+three = input("Enter your last name: ")
+FullName(one, two, three)
+
+#Mashup Code
+def MashUp(str1, str2):
+  print("Mixed up string =", (str1 + str2))
+
+print("\nFullName\n" + ("-"*42))
+america = input("Enter the first string: ")
+america1 = input("Enter the second string: ")
+MashUp(america, america1)
+
+#mixed up
+def Mixedup(str1):
+  x = len(str1)
+  y = int(x/2)
+  print(str1[y:] + str1[0:y])
+
+print("\nMixup\n" + ("-"*42))
+Mixedup(america)
+
+#PigLatin
+def PigLatin(str1, str2):
+  x = len(str1)
+  y = len(str2)
+  print("Pig Latin = " + str1[1:x] + str1[0] + "ay", str2[1:x] + str2[0] + "ay")
+
+print("\nPig Latin\n" + ("-"*42))
+#test = input("Enter the first string: ")
+#test1 = input("Enter the second string: ")
+PigLatin(america, america1)
+
+#OneWord
+def OneWord(str1):
+  print("You typed:", str1, america1)
+  str1 = str1 + ' ' + america1
+  world = input("Enter a word to replace: ")
+  test = input("What will you replace '{}' with? ".format(world))
+  print(str1.replace(world, test))
+
+print("\nOneWord\n" + ("-"*42))
+#world = input("Enter Two words: ")
+OneWord(america)
+
+#AllergicTORSTLNE
+def AllergicToRSTLNE(str1):
+  computerlist = ['R' , 'S' , 'T' , 'L' , 'N', 'E', 'r', 's', 't', 'l', 'n', 'e']
+  if any(word in str1 for word in computerlist):
+    print("I am allergic to {}".format(str1))
+  else:
+    print("{} is pleasing to me.".format(str1))
+
+print("\nAllergicToRSTLNE\n" + ("-"*42))
+#test = input("Enter a word: ")
+AllergicToRSTLNE(america)
